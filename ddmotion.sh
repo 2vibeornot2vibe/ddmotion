@@ -25,8 +25,8 @@ then
     exit
 fi
 
-# List all devices with some basic info
-lsblk --output NAME,SIZE,MODEL,SERIAL
+# List block devices with some additional info
+lsblk --output NAME,MODEL,SERIAL,SIZE
 echo
 
 while :
@@ -56,8 +56,8 @@ TOTAL_SECTORS=$(expr $(blockdev --getsize64 "$DEV") / $SECTOR_SIZE)
 # Calculate the LBA range for perturbations
 MAX_OFFSET=$(awk -v ts="$TOTAL_SECTORS" -v pr="$PERT_RANGE" 'BEGIN {printf "%.0f", ts*pr}')
 
-# Using dd to seek to a specified offset, but apply some "perturbation" to prevent caching by the device itself
-# Then, print a # in the terminal to indicate the current seek position
+# Use dd to seek to a specified offset, but apply some "perturbation" as a work-around of read caching on some devices
+# Then print a # in the terminal to reflect the current seek position
 exec_seek() {
     local skip_lba
     # Get the new "perturbed" LBA offset
@@ -72,7 +72,7 @@ exec_seek() {
             printf "%d", skip
         }')
     # Read a single block matching device's sector size using dd
-    # Also bypass OS's page cache, continue on errors, hide all outputs / error messages
+    # Also bypass OS's page cache, continue on errors, hide all outputs and error messages
     dd if="$DEV" iflag=direct skip="$skip_lba" of=/dev/null bs="$SECTOR_SIZE" count=1 conv=noerror status=none 2>/dev/null
     # Print a #, dynamically adapting to the current terminal width
     printf "%$(($(awk -v p="$1" -v w=$(tput cols) 'BEGIN {printf "%.0f", p*(w-1)}')))s#\n"""
