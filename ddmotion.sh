@@ -51,7 +51,7 @@ done
 
 # Get device's parameters
 SECTOR_SIZE=$(blockdev --getss "$DEV")
-TOTAL_SECTORS=$(blockdev --getsz "$DEV")
+TOTAL_SECTORS=$(expr $(blockdev --getsize64 "$DEV") / $SECTOR_SIZE)
 
 # Calculate the LBA range for perturbations
 MAX_OFFSET=$(awk -v ts="$TOTAL_SECTORS" -v pr="$PERT_RANGE" 'BEGIN {printf "%.0f", ts*pr}')
