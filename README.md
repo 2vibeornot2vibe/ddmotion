@@ -7,8 +7,8 @@ And hdmotion-for-windows by 1157369 (github.com/II57369/hdmotion-for-windows)
 Released under GPLv3 license
 This script was vibe coded together just for fun and comes with NO WARRANTY
 
-Usage:
-sudo chmod +x ./ddmotion.sh
-sudo ./ddmotion.sh
-Enter target device
+Usage:  
+sudo chmod +x ./ddmotion.sh  
+sudo ./ddmotion.sh  
+Enter target device  
 Enter the number of loops
