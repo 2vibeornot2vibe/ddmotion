@@ -15,7 +15,7 @@
 
 # This variable controls the range of "perturbation" applied to each seek operation
 # This is necessary to bypass some devices' internal read cache
-# Default is ±0.1% of the device's total LBA, increase this if some seeks get cached
+# Default is ±0.1% of the device's total LBA, increase this if some seeks get cached, and set this to 0 for FDD
 PERT_RANGE=0.001
 
 # Check for root privileges
