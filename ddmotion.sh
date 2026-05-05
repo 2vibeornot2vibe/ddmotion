@@ -3,6 +3,7 @@
 ####################################################################################################
 
 # ddmotion.sh: a shell script recreation of MS-DOS program "hdmotion" using dd in GNU/Linux
+# It works on all block devices with varying sector sizes, including HDDs, SSDs, ODDs, and even FDDs
 
 # Authored by Gemma 4, enhanced by DeepSeek-V4, audited and improved by me <3
 # Inspired by hdmotion by Jeremy Stanley (hdmotion.pingerthinger.com)
@@ -62,7 +63,7 @@ MAX_OFFSET=$(awk -v ts="$TOTAL_SECTORS" -v pr="$PERT_RANGE" 'BEGIN {printf "%.0f
 run_patt() {
     awk -v dev="$DEV" -v ss="$SECTOR_SIZE" -v ts="$TOTAL_SECTORS" -v mo="$MAX_OFFSET" -v cols="$COLS" '
     # Use dd to seek to a specified offset, but apply some "perturbation" as a work-around of read caching on some devices
-    # Then print a # in the terminal to reflect the current seek position
+    # Then print a # in the terminal to reflect current seek location
     function exec_seek(p) {
         # Get the new "perturbed" LBA offset
         lba=int(p*(ts-1))
@@ -76,7 +77,7 @@ run_patt() {
         cmd="dd if=" dev " iflag=direct skip=" skip " of=/dev/null bs=" ss " count=1 conv=noerror status=none 2>/dev/null"
         system(cmd)
 
-        # Print a #, adapted to the current terminal width
+        # Print a #, adapted to the terminal width
         w=int(p*(cols-1))
         printf "%*s#\n", w, ""
     }
