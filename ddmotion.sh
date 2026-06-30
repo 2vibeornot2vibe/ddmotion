@@ -1,19 +1,5 @@
 #!/usr/bin/env bash
 
-####################################################################################################
-
-# ddmotion.sh: a shell script recreation of MS-DOS program "hdmotion" using dd in GNU/Linux
-# It works on all block devices with varying sector sizes, including HDDs, SSDs, ODDs, and even FDDs
-
-# Authored by Gemma 4, enhanced by DeepSeek-V4, audited and improved by me <3
-# Inspired by hdmotion by Jeremy Stanley (hdmotion.pingerthinger.com)
-# And hdmotion-for-windows by 1157369 (github.com/II57369/hdmotion-for-windows)
-
-# Released under GPLv3 license
-# This script was vibe coded together just for fun and comes with NO WARRANTY
-
-####################################################################################################
-
 # This variable controls the range of "perturbation" applied to each seek operation
 # This is necessary to bypass some devices' internal read cache
 # Default is ±0.1% of the device's total LBA, increase this if some seeks get cached, and set this to 0 for FDD
@@ -30,7 +16,7 @@ fi
 COLS=$(tput cols)
 
 # List block devices with some additional info
-lsblk --output NAME,MODEL,SERIAL,SIZE
+lsblk -d --output NAME,MODEL,SERIAL,SIZE
 echo
 
 while :
@@ -62,7 +48,7 @@ MAX_OFFSET=$(awk -v ts="$TOTAL_SECTORS" -v pr="$PERT_RANGE" 'BEGIN {printf "%.0f
 
 run_patt() {
     awk -v dev="$DEV" -v ss="$SECTOR_SIZE" -v ts="$TOTAL_SECTORS" -v mo="$MAX_OFFSET" -v cols="$COLS" '
-    # Use dd to seek to a specified offset, but apply some "perturbation" as a work-around of read caching on some devices
+    # Use dd to seek to a specified offset, with random "perturbation" applied as a work-around of read caching on some devices
     # Then print a # in the terminal to reflect current seek location
     function exec_seek(p) {
         # Get the new "perturbed" LBA offset
