@@ -16,7 +16,7 @@ fi
 COLS=$(tput cols)
 
 # List block devices with some additional info
-lsblk -d --output NAME,MODEL,SERIAL,SIZE
+lsblk -d -o NAME,MODEL,SERIAL,SIZE
 echo
 
 while :
