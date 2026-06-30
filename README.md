@@ -1,15 +1,30 @@
-**ddmotion.sh: a shell script recreation of MS-DOS program "hdmotion" using dd in GNU/Linux**  
-It works on all block devices with varying sector sizes, including HDDs, SSDs, ODDs, and even FDDs
+# ddmotion.sh
 
-Authored by Gemma 4, enhanced by DeepSeek-V4, audited and improved by me <3  
-Inspired by hdmotion by Jeremy Stanley (hdmotion.pingerthinger.com)  
-And hdmotion-for-windows by 1157369 (github.com/II57369/hdmotion-for-windows)
+A shell script recreation of DOS program [hdmotion](hdmotion.pingerthinger.com) using dd in GNU/Linux.
 
-Released under GPLv3 license  
-This script was vibe coded together just for fun and comes with NO WARRANTY
+## Features
 
-Usage:  
-sudo chmod +x ./ddmotion.sh  
-sudo ./ddmotion.sh  
-Enter target device  
-Enter the number of loops
+Works on all block devices with varying sector sizes, including HDDs, SSDs, ODDs, and even FDDs (set PERT_RANGE to 0 for FDDs).
+
+Applies random "perturbations" on each seek operation as a work-around of read caching on modern drives.
+
+Adapts to terminal window width.
+
+## Use
+
+```bash
+chmod +x ddmotion.sh
+sudo ./ddmotion.sh
+```
+
+## Credits
+
+This script was inspired by Jeremy Stanley's [hdmotion](hdmotion.pingerthinger.com) and 1157369's [hdmotion-for-windows](https://github.com/II57369/hdmotion-for-windows). It was mainly authored by **Gemma 4** and **DeepSeek-V4**, with the code audited and enhanced by me. <3
+
+**Disclaimer:** This script was vibe coded together just for fun and provided "as is" with **NO WARRANTY**.
+
+Feedbacks and contributions to this project are welcome! :D
+
+## License
+
+This script is released under the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.html).
